@@ -63,7 +63,8 @@
      userSessionData.setValue("xss-reflected1-complete", "false");
      StringBuilder cart = new StringBuilder();
      cart.append("Thank you for shopping at WebGoat. <br />Your support is appreciated<hr />");
-     cart.append("<p>We have charged credit card:" + field1 + "<br />");
+-    cart.append("<p>We have charged credit card:" + field1 + "<br />");
++    cart.append("<p>We have charged credit card:" + StringEscapeUtils.escapeHtml4(field1) + "<br />");
      cart.append("                             ------------------- <br />");
      cart.append("                               $" + totalSale);
  
@@ -82,14 +83,12 @@
        } else {
          return success(this)
              .feedback("xss-reflected-5a-success-alert")
--            .output(cart.toString())
-+            .output(StringEscapeUtils.escapeHtml4(cart.toString()))
+             .output(cart.toString())
              .build();
        }
      } else {
        userSessionData.setValue("xss-reflected1-complete", "false");
--      return failed(this).feedback("xss-reflected-5a-failure").output(cart.toString()).build();
-+      return failed(this).feedback("xss-reflected-5a-failure").output(StringEscapeUtils.escapeHtml4(cart.toString())).build();
+       return failed(this).feedback("xss-reflected-5a-failure").output(cart.toString()).build();
      }
    }
  }
